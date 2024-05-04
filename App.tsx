@@ -1,14 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+// App.tsx
+import React, { useEffect } from 'react';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import BootSplash from 'react-native-bootsplash';
-import {colors} from './src/theme/colors';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Register from './src/screens/Register'; // Adjust the import path as needed
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -17,24 +12,23 @@ function App(): React.JSX.Element {
     };
 
     init().finally(async () => {
-      await BootSplash.hide({fade: true});
+      await BootSplash.hide({ fade: true });
       console.log('BootSplash has been hidden successfully');
     });
   }, []);
 
   return (
-    <View style={styles.root}>
-      <Text>Hello World</Text>
-      <Text>Hello World</Text>
-      <Text>Hello World</Text>
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safe}>
+        <Register />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  root: {
+  safe: {
     flex: 1,
-    backgroundColor: colors.white,
   },
 });
 
