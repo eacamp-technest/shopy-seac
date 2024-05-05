@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import BootSplash from 'react-native-bootsplash';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import Register from './src/screens/Register'; // Adjust the import path as needed
+import Login from './src/screens/Login'; // Adjust the import path as needed
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -20,7 +20,7 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safe}>
-        <Register />
+        <Login />
       </SafeAreaView>
     </SafeAreaProvider>
   );

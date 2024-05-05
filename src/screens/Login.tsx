@@ -1,11 +1,11 @@
-// RegisterComponent.js
+// LoginComponent.js
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import Input from '../components/Input';
 import OpenURLButton from '../components/OpenURLButton';
 import BackArrowButton from '../components/BackArrowButton';
 
-const RegisterComponent = () => {
+const LoginComponent = () => {
     const handleBack = () => {
         console.log('Back button pressed'); // Replace with your navigation logic
     };
@@ -16,12 +16,7 @@ const RegisterComponent = () => {
 
             <View style={styles.formContainer}>
 
-                <Text style={styles.header}>CREATE ACCOUNT</Text>
-
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Full Name</Text>
-                    <Input placeholder="Juiinal William" />
-                </View>
+                <Text style={styles.header}>LOGIN</Text>
 
                 <View style={styles.inputContainer}>
                     <Text style={styles.label}>Email</Text>
@@ -34,14 +29,14 @@ const RegisterComponent = () => {
                 </View>
 
                 <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Create an account</Text>
+                    <Text style={styles.buttonText}>Log in</Text>
                 </TouchableOpacity>
             </View>
 
 
             <View style={styles.footerContainer}>
                 <Text style={styles.footerText}>
-                    By signing up you agree to our
+                    By logging in you agree to our
                     {' '}
                     <OpenURLButton url="https://example.com/terms">Terms</OpenURLButton>
                     {' and '}
@@ -51,6 +46,7 @@ const RegisterComponent = () => {
         </ScrollView>
     );
 };
+
 const styles = StyleSheet.create({
     container: {
         fontFamily: 'Montserrat',
@@ -109,4 +105,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default RegisterComponent;
+export default LoginComponent;
