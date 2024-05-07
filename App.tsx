@@ -6,10 +6,11 @@
  */
 
 import React, {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StatusBar, StyleSheet, Text, View} from 'react-native';
 import BootSplash from 'react-native-bootsplash';
 import {colors} from './src/theme/colors';
-
+// import Router from './src/router';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 function App(): React.JSX.Element {
   useEffect(() => {
     const init = async () => {
@@ -23,9 +24,13 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <View style={styles.root}>
-      <Text>Hello World</Text>
-    </View>
+    <SafeAreaProvider>
+      <StatusBar barStyle={'dark-content'} />
+      <View style={styles.root}>
+        {/* <Router /> */}
+        <Text>Hello World</Text>
+      </View>
+    </SafeAreaProvider>
   );
 }
 
