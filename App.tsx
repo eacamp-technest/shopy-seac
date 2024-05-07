@@ -25,8 +25,6 @@ function App(): React.JSX.Element {
   return (
     <View style={styles.root}>
       <Text>Hello World</Text>
-      <Text>Hello World</Text>
-      <Text>Hello World</Text>
     </View>
   );
 }
