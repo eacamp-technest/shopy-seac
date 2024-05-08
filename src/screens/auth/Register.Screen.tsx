@@ -3,10 +3,12 @@ import React from 'react';
 
 export const RegisterScreen = () => {
   return (
-    <View>
+    <View style={styles.root}>
       <Text></Text>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  root: {},
+});
