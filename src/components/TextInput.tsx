@@ -5,12 +5,14 @@ import {
   Text,
   Pressable,
   Keyboard,
+  KeyboardTypeOptions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {TypographyStyles} from 'theme/typography';
 import {SvgImage} from './SvgImage';
 import {colors} from 'theme/colors';
 import {normalize} from 'theme/metrics';
+import {CommonStyles} from 'theme/common.styles';
 
 interface ITextInput {
   placeholder: string;
@@ -18,7 +20,9 @@ interface ITextInput {
   captionText?: string;
   rightIcon?: NodeRequire;
   leftIcon?: NodeRequire;
+  secureText?: boolean;
   errorMessage?: string;
+  keyboardType?: KeyboardTypeOptions;
   onRightPressed?: () => void;
   onChangeText?: (value: string) => void;
 }
@@ -32,6 +36,8 @@ export const CustomTextInput: React.FC<ITextInput> = ({
   rightIcon,
   placeholder,
   errorMessage,
+  keyboardType,
+  secureText = false,
 }) => {
   const [isFocus, changeFocus] = useState(false);
 
@@ -70,8 +76,11 @@ export const CustomTextInput: React.FC<ITextInput> = ({
         {leftIcon && <SvgImage source={leftIcon} />}
         <TextInput
           onChangeText={onChangeText}
+          numberOfLines={1}
+          secureTextEntry={secureText}
           placeholder={placeholder}
           style={[styles.textInput]}
+          keyboardType={keyboardType}
         />
         {rightIcon && (
           <Pressable onPress={onRightPressed}>
@@ -88,19 +97,15 @@ const styles = StyleSheet.create({
   container: {
     borderColor: colors.sky.light,
     borderWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    ...CommonStyles.alignCenterJustifyBetweenRow,
     borderRadius: normalize('vertical', 8),
-    justifyContent: 'space-between',
     paddingHorizontal: normalize('horizontal', 12),
   },
   focusContainer: {
+    ...CommonStyles.alignCenterJustifyBetweenRow,
     borderColor: colors.primary.base,
     borderWidth: 2,
-    flexDirection: 'row',
-    alignItems: 'center',
     borderRadius: normalize('vertical', 8),
-    justifyContent: 'space-between',
     paddingHorizontal: normalize('horizontal', 12),
   },
   textInput: {
