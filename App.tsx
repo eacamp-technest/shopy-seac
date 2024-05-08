@@ -6,11 +6,10 @@
  */
 
 import React, {useEffect} from 'react';
-import {StatusBar, StyleSheet, Text, View} from 'react-native';
+import {StatusBar} from 'react-native';
 import BootSplash from 'react-native-bootsplash';
-import {colors} from './src/theme/colors';
-// import Router from './src/router';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {WelcomeScreen} from 'screens/auth/Welcome.Screen';
 function App(): React.JSX.Element {
   useEffect(() => {
     const init = async () => {
@@ -26,19 +25,10 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={'dark-content'} />
-      <View style={styles.root}>
-        {/* <Router /> */}
-        <Text>Hello World</Text>
-      </View>
+
+      <WelcomeScreen />
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
-});
 
 export default App;
