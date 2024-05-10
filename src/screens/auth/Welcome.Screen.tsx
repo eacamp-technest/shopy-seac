@@ -1,8 +1,12 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {CustomTextInput} from 'components/TextInput';
+import {Button} from 'components/Button';
+import {Dialog} from 'components/Dialog';
 
 export const WelcomeScreen = () => {
+  const [visible, setVisible] = useState<boolean>(false);
+
   return (
     <View style={styles.root}>
       <CustomTextInput
@@ -10,6 +14,13 @@ export const WelcomeScreen = () => {
         labelText="Text Label"
         leftIcon={require('../../assets/vectors/map-pin.svg')}
         rightIcon={require('../../assets/vectors/chevron-down.svg')}
+      />
+      <Button text="Show Dialog" onPress={() => setVisible(true)} />
+      <Dialog
+        title="Remove Item"
+        subtitle="This item will delete"
+        isVisible={visible}
+        type="prompt"
       />
     </View>
   );

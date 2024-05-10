@@ -5,6 +5,8 @@ import {
   Text,
   Pressable,
   KeyboardTypeOptions,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
 import React, {useState} from 'react';
 import {TypographyStyles} from 'theme/typography';
@@ -22,6 +24,7 @@ interface ITextInput {
   disabled?: boolean;
   secureText?: boolean;
   errorMessage?: string;
+  style?: StyleProp<ViewStyle>;
   value?: string;
   setValue?: (value: string) => void;
   keyboardType?: KeyboardTypeOptions;
@@ -41,6 +44,7 @@ export const CustomTextInput: React.FC<ITextInput> = ({
   value,
   setValue,
   disabled,
+  style,
 }) => {
   const [isFocus, changeFocus] = useState(false);
 
@@ -57,7 +61,7 @@ export const CustomTextInput: React.FC<ITextInput> = ({
   const onFocus = () => changeFocus(true);
   const onBlur = () => changeFocus(false);
   return (
-    <View>
+    <View style={style}>
       {labelText && (
         <Text style={[TypographyStyles.RegularNoneSemiBold, styles.label]}>
           {labelText}
@@ -95,6 +99,8 @@ export const CustomTextInput: React.FC<ITextInput> = ({
 
 const styles = StyleSheet.create({
   container: {
+    height: 48,
+    width: '100%',
     borderColor: colors.sky.light,
     borderWidth: 1,
     ...CommonStyles.alignCenterJustifyBetweenRow,
@@ -109,8 +115,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: normalize('horizontal', 12),
   },
   textInput: {
-    borderColor: 'transparent',
+    height: '100%',
     flex: 1,
+    flexGrow: 1,
   },
   disabled: {
     backgroundColor: colors.sky.lighter,
