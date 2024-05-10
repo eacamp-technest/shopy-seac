@@ -20,6 +20,9 @@ export const WelcomeScreen = () => {
         title="Remove Item"
         subtitle="This item will delete"
         isVisible={visible}
+        image="illustrated"
+        size="middle"
+        source={require('../../assets/images/image_ratio.png')}
         type="prompt"
       />
     </View>
