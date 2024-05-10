@@ -67,6 +67,11 @@ export const TypographyStyles = StyleSheet.create({
     fontFamily: montserratFonts[600],
     ...commonFontStyling,
   },
+  RegularNormalSemiBold: {
+    fontSize: fontSize16,
+    fontFamily: montserratFonts[600],
+    ...commonFontStyling,
+  },
   SmallNormalRegular: {
     fontSize: fontSize14,
     fontFamily: montserratFonts[400],
