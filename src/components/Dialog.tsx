@@ -11,7 +11,7 @@ import {colors} from 'theme/colors';
 import {CommonStyles} from 'theme/common.styles';
 import {TypographyStyles} from 'theme/typography';
 import {Button} from './Button';
-import {CustomTextInput} from './Input';
+import {CustomTextInput} from './TextInput';
 import {normalize} from 'theme/metrics';
 
 type TDialog = 'confirmation' | 'alert' | 'prompt' | 'notification';

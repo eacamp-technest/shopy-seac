@@ -8,10 +8,10 @@ interface BackArrowButtonProps {
 const BackArrowButton: React.FC<BackArrowButtonProps> = ({ onPress }) => {
     return (
         <TouchableOpacity style={styles.backButton} onPress={onPress}>
-            <Image
+            {/* <Image
                 source={require('../../assets/Icons/left-arrow.png')} // Adjust the path as necessary
                 style={{ width: 24, height: 24 }} // Set the size as needed
-            />
+            /> */}
         </TouchableOpacity>
     );
 };
