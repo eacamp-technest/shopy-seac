@@ -1,141 +1,188 @@
 import {
   View,
+  Text,
   StyleSheet,
   TextInput,
-  Text,
-  Pressable,
   KeyboardTypeOptions,
   StyleProp,
   ViewStyle,
+  Pressable,
 } from 'react-native';
 import React, {useState} from 'react';
-import {TypographyStyles} from 'theme/typography';
 import {SvgImage} from './SvgImage';
+import {TypographyStyles} from 'theme/typography';
 import {colors} from 'theme/colors';
-import {normalize} from 'theme/metrics';
+import {standardHitSlopSize} from 'theme/consts.styles';
 import {CommonStyles} from 'theme/common.styles';
 
-interface ITextInput {
-  placeholder: string;
-  labelText?: string;
-  captionText?: string;
-  rightIcon?: NodeRequire;
-  leftIcon?: NodeRequire;
+type TIcon = {
+  source: NodeRequire;
+  color?: string;
+  width?: number;
+  height?: number;
+  position?: 'left' | 'right';
+};
+
+export interface IInput {
+  type?: 'text' | 'phone' | 'password' | 'select';
+  label?: string;
+  caption?: string;
+  value?: string;
+  placeholder?: string;
   disabled?: boolean;
-  secureText?: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  icon?: TIcon | NodeRequire;
   errorMessage?: string;
   style?: StyleProp<ViewStyle>;
-  value?: string;
   setValue?: (value: string) => void;
-  keyboardType?: KeyboardTypeOptions;
-  onRightPressed?: () => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
-export const CustomTextInput: React.FC<ITextInput> = ({
-  onRightPressed,
-  labelText,
-  captionText,
-  leftIcon,
-  rightIcon,
-  placeholder,
-  errorMessage,
-  keyboardType,
-  secureText = false,
+export const Input: React.FC<IInput> = ({
   value,
+  type = 'text',
   setValue,
-  disabled,
-  style,
+  icon,
+  ...props
 }) => {
-  const [isFocus, changeFocus] = useState(false);
+  const [focused, setFocused] = useState<boolean>(false);
+  const [secureTextEntry, setSecureTextEntry] = useState<boolean>(
+    type === 'password',
+  );
 
-  const getCaption = () => {
-    if (errorMessage) {
-      return <Text style={styles.errorMessage}>{errorMessage}</Text>;
+  const isMoreIcon =
+    ('position' in (icon ?? {}) && (icon as TIcon)?.position === 'right') ||
+    type === 'password';
+
+  const renderIcon = () => {
+    if (type === 'password') {
+      return (
+        <Pressable hitSlop={standardHitSlopSize}>
+          <SvgImage
+            source={
+              secureTextEntry
+                ? require('../assets/vectors/eye_off.svg')
+                : require('../assets/vectors/eye.svg')
+            }
+            color={colors.ink.base}
+            width={24}
+            height={24}
+            onPress={() => setSecureTextEntry(state => !state)}
+          />
+        </Pressable>
+      );
     }
 
-    if (captionText) {
-      return <Text style={styles.caption}>{captionText}</Text>;
+    if (!icon) {
+      return null;
     }
+
+    if ('source' in icon) {
+      return (
+        <SvgImage
+          source={icon.source}
+          width={icon.width}
+          color={icon.color}
+          height={icon.height}
+        />
+      );
+    }
+
+    return (
+      <SvgImage
+        source={icon}
+        color={props.disabled ? colors.sky.base : colors.ink.base}
+      />
+    );
   };
 
-  const onFocus = () => changeFocus(true);
-  const onBlur = () => changeFocus(false);
+  const handleOnFocused = () => {
+    setFocused(true);
+    props?.onFocus?.();
+  };
+  const handleOnBlur = () => {
+    setFocused(false);
+    props?.onBlur?.();
+  };
+
   return (
-    <View style={style}>
-      {labelText && (
-        <Text style={[TypographyStyles.RegularNoneSemiBold, styles.label]}>
-          {labelText}
-        </Text>
-      )}
+    <View style={[styles.root, props?.style]}>
+      {props.label ? (
+        <Text style={TypographyStyles.RegularNoneSemiBold}>{props.label}</Text>
+      ) : null}
       <View
         style={[
-          styles.container,
-          isFocus && styles.focusContainer,
-          disabled && styles.disabled,
+          styles.wrapper,
+          focused && styles.focused,
+          props.disabled && styles.wrapperDisabled,
+          isMoreIcon && CommonStyles.rowReverse,
         ]}>
-        {leftIcon && <SvgImage source={leftIcon} />}
+        {renderIcon()}
         <TextInput
-          onChangeText={setValue}
-          numberOfLines={1}
+          placeholder={props.placeholder}
+          keyboardType={props.keyboardType}
           value={value}
-          secureTextEntry={secureText}
-          placeholder={placeholder}
-          style={[styles.textInput]}
-          keyboardType={keyboardType}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          editable={!disabled}
+          onFocus={handleOnFocused}
+          onBlur={handleOnBlur}
+          autoCapitalize="none"
+          editable={!props.disabled}
+          secureTextEntry={secureTextEntry}
+          onChangeText={setValue}
+          placeholderTextColor={
+            props.disabled ? colors.sky.base : colors.ink.lighter
+          }
+          style={styles.input}
         />
-        {rightIcon && (
-          <Pressable onPress={onRightPressed}>
-            <SvgImage color={colors.ink.base} source={rightIcon} />
-          </Pressable>
-        )}
       </View>
-      {getCaption()}
+      {props.caption || props.errorMessage ? (
+        <Text
+          style={[
+            styles.caption,
+            props?.errorMessage ? styles.error : undefined,
+          ]}>
+          {props.errorMessage ?? props.caption}
+        </Text>
+      ) : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: 48,
-    width: '100%',
-    borderColor: colors.sky.light,
-    borderWidth: 1,
-    ...CommonStyles.alignCenterJustifyBetweenRow,
-    borderRadius: normalize('vertical', 8),
-    paddingHorizontal: normalize('horizontal', 12),
+  root: {
+    gap: 12,
   },
-  focusContainer: {
-    ...CommonStyles.alignCenterJustifyBetweenRow,
-    borderColor: colors.primary.base,
+  focused: {
     borderWidth: 2,
-    borderRadius: normalize('vertical', 8),
-    paddingHorizontal: normalize('horizontal', 12),
+    borderColor: colors.primary.base,
   },
-  textInput: {
-    height: '100%',
-    flex: 1,
-    flexGrow: 1,
-  },
-  disabled: {
+  wrapperDisabled: {
     backgroundColor: colors.sky.lighter,
     borderColor: colors.sky.lighter,
     color: colors.sky.base,
   },
-
-  label: {
-    marginBottom: normalize('vertical', 12),
-    ...TypographyStyles.RegularNoneSemiBold,
+  error: {
+    color: colors.primary.base,
   },
   caption: {
-    marginTop: normalize('vertical', 12),
     ...TypographyStyles.SmallNormalRegular,
+    color: colors.ink.lighter,
   },
-  errorMessage: {
-    ...TypographyStyles.SmallNormalRegular,
-    marginTop: normalize('vertical', 12),
-    color: colors.red.base,
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.sky.light,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    gap: 12,
+    height: 48,
+  },
+  input: {
+    height: '100%',
+    flex: 1,
+    flexGrow: 1,
+    borderColor: 'red',
+    ...TypographyStyles.RegularNoneRegular,
   },
 });

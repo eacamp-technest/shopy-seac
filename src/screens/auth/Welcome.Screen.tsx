@@ -1,6 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
-import {CustomTextInput} from 'components/TextInput';
+import {CustomTextInput} from 'components/Input';
 import {Button} from 'components/Button';
 import {Dialog} from 'components/Dialog';
 
