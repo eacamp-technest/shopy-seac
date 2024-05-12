@@ -1,10 +1,12 @@
-// LoginComponent.js
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import OpenURLButton from '../../components/OpenURLButton';
 import BackArrowButton from '../../components/BackArrowButton';
-import {Navbar} from '../../components/Navbar';
+
+import GoogleIcon from '../../assets/Icons/google.png';
+import FacebookIcon from '../../assets/Icons/facebook.png';
+import TwitterIcon from '../../assets/Icons/twitter.png';
 
 const LoginComponent = () => {
     const handleBack = () => {
@@ -13,29 +15,39 @@ const LoginComponent = () => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {/* <Navbar type="standard" leftActionType="icon" left={vectors.arrow_left} /> */}
-
             <BackArrowButton onPress={handleBack} />
 
             <View style={styles.formContainer}>
-
                 <Text style={styles.header}>LOGIN</Text>
 
                 <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Email</Text>
                     <CustomInput placeholder="Enter your email" />
                 </View>
 
                 <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Password</Text>
                     <CustomInput placeholder="Enter your password" />
                 </View>
 
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.buttonText}>Log in</Text>
                 </TouchableOpacity>
-            </View>
 
+                {/* Add 'or sign in with' text */}
+                <Text style={styles.signInText}>or sign in with</Text>
+
+                {/* Social Media Login Buttons */}
+                <View style={styles.socialMediaContainer}>
+                    <TouchableOpacity style={styles.socialButton}>
+                        <Image source={GoogleIcon} style={styles.iconStyle} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.socialButton}>
+                        <Image source={FacebookIcon} style={styles.iconStyle} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.socialButton}>
+                        <Image source={TwitterIcon} style={styles.iconStyle} />
+                    </TouchableOpacity>
+                </View>
+            </View>
 
             <View style={styles.footerContainer}>
                 <Text style={styles.footerText}>
@@ -67,22 +79,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     header: {
-        width: 327,
-        marginBottom: 10,
-        alignItems: 'center',
         fontSize: 32,
         fontWeight: 'bold',
         color: '#383B50',
         fontFamily: 'Bebas Neue',
         paddingTop: 16,
         paddingBottom: 16,
-    },
-    label: {
-        alignSelf: 'flex-start',
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#000',
-        marginBottom: 5,
     },
     button: {
         backgroundColor: '#DE6053',
@@ -95,6 +97,27 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#ffffff',
         fontSize: 18,
+    },
+    signInText: {
+        fontSize: 14,
+        color: '#666',
+        textAlign: 'center',
+        marginTop: 20,
+        marginBottom: 10,
+    },
+    socialMediaContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 10,
+    },
+    socialButton: {
+        padding: 10,
+        borderRadius: 30,
+        backgroundColor: '#fff', // Change as necessary
+    },
+    iconStyle: {
+        width: 30,
+        height: 30,
     },
     footerContainer: {
         position: 'absolute',
