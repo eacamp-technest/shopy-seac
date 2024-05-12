@@ -92,7 +92,7 @@ export const Navbar: React.FC<INavBar> = ({
           <Button
             type="primary"
             size="small"
-            text={data?.toString()}
+            text={data?.toString() ?? ''}
             onPress={onPressAction}
           />
         );

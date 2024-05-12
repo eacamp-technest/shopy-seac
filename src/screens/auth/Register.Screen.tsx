@@ -13,7 +13,7 @@ const RegisterComponent = () => {
         <ScrollView contentContainerStyle={styles.container}>
 
             <View style={styles.formContainer}>
-
+                
                 <Text style={styles.header}>CREATE ACCOUNT</Text>
 
                 <View style={styles.inputContainer}>
