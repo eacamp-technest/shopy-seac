@@ -90,8 +90,8 @@ export const Dialog: React.FC<IDialog> = ({
         <View style={[styles.modalView]}>
           {image === 'illustrated' && getImage()}
           <View style={styles.body}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.subtitle}>{subtitle}</Text>
+            {title && <Text style={styles.title}>{title}</Text>}
+            {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
             {type === 'prompt' && (
               <CustomTextInput
                 style={styles.input}
