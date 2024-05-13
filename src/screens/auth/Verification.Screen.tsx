@@ -6,11 +6,12 @@ import {TypographyStyles} from 'theme/typography';
 import {Button} from 'components/Button';
 import {Dialog} from 'components/Dialog';
 import {OtpInput} from 'components/OtpInput';
+import {TextLink} from 'components/TextLink';
 
 export const VerificationScreen = () => {
   const [visible, setVisible] = useState<boolean>(false);
-
-  const code = '1234';
+  const [otp, setOtp] = useState<string>('');
+  const [codes, setCodes] = useState<string[] | undefined>(Array(4).fill(''));
 
   const refs = [
     useRef<any>(null),
@@ -29,16 +30,37 @@ export const VerificationScreen = () => {
       />
 
       <Text style={styles.title}>ENTER SMS CODE</Text>
-      <OtpInput codes={code} refs={refs} />
-      <Text style={styles.subtitle}>Didn’t receive code? Resend Code</Text>
+      <OtpInput
+        codes={codes!}
+        refs={refs}
+        onChangeCode={(text, index) => {
+          const newCodes = [...codes!];
+          newCodes[index] = text;
+          setCodes(newCodes);
+          setOtp(newCodes.join(''));
+        }}
+      />
+      <TextLink
+        style={styles.subtitle}
+        content="Didn’t receive code? Resend Code"
+        highlighted={highlighted}
+        center
+      />
       <Button text="Continue" onPress={() => setVisible(true)} />
       <Dialog
         type="confirmation"
         isVisible={visible}
-        subtitle="I agree to the Terms of Service and Conditions of Use including consent to electronic communications and I affirm that the information provided is my own."
+        subtitle={
+          <TextLink
+            highlighted={highlightedTerms}
+            content="I agree to the Terms of Service and Conditions of Use including consent to electronic communications and I affirm that the information provided is my own"
+          />
+        }
         primaryButtonText="Agree and continue"
         transparentButtonText="Disagree and close"
-        onPrimary={() => {}}
+        onPrimary={() => {
+          console.log('My otp code', otp);
+        }}
         onTransparent={() => {
           setVisible(false);
         }}
@@ -46,6 +68,40 @@ export const VerificationScreen = () => {
     </View>
   );
 };
+
+const highlighted = [
+  {
+    text: 'Resend',
+    callback: () => console.log('terns'),
+  },
+  {
+    text: 'Code',
+    callback: () => console.log('conditions'),
+  },
+];
+
+const highlightedTerms = [
+  {
+    text: 'Terms',
+    callback: () => console.log('terns'),
+  },
+  {
+    text: 'of',
+    callback: () => console.log('conditions'),
+  },
+  {
+    text: 'Service',
+    callback: () => console.log('conditions'),
+  },
+  {
+    text: 'and',
+    callback: () => console.log('conditions'),
+  },
+  {
+    text: 'Conditions',
+    callback: () => console.log('conditions'),
+  },
+];
 
 const styles = StyleSheet.create({
   root: {
