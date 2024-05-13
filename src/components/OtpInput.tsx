@@ -2,17 +2,19 @@ import {View, StyleSheet, TextInput} from 'react-native';
 import React, {RefObject, useState} from 'react';
 import {colors} from 'theme/colors';
 import {TypographyStyles} from 'theme/typography';
+import {normalize} from 'theme/metrics';
 
 interface IOTP {
-  codes: string;
+  codes: Array<string>;
   refs: RefObject<TextInput>[];
+  onChangeCode: (text: string, index: number) => void;
 }
 
-export const OtpInput: React.FC<IOTP> = ({codes, refs}) => {
+export const OtpInput: React.FC<IOTP> = ({codes, refs, onChangeCode}) => {
   const [focusIndex, handleFocus] = useState<number | null>(null);
+
   const renderInputs = () => {
-    const otp = codes.split('');
-    return otp.map((code, index) => {
+    return codes.map((code, index) => {
       return (
         <View
           key={index}
@@ -35,6 +37,8 @@ export const OtpInput: React.FC<IOTP> = ({codes, refs}) => {
               if (value.length === 1) {
                 refs[index + 1]?.current?.focus();
               }
+
+              onChangeCode(value, index);
             }}
           />
         </View>
@@ -49,19 +53,19 @@ const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 16,
+    marginTop: normalize('vertical', 16),
   },
   focusWrapper: {
     borderColor: colors.primary.base,
     borderWidth: 2,
   },
   wrapper: {
-    height: 48,
-    width: 48,
+    height: normalize('vertical', 48),
+    width: normalize('vertical', 48),
     borderColor: colors.sky.light,
     borderWidth: 2,
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: normalize('vertical', 8),
   },
   input: {
     height: '100%',

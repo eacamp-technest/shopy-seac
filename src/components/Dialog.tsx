@@ -24,7 +24,7 @@ interface IDialog {
   image?: TImage;
   size?: TSize;
   title?: string;
-  subtitle?: string;
+  subtitle?: any;
   isVisible?: boolean;
   content?: string;
   inputValue?: string;
