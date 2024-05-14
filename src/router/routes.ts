@@ -6,5 +6,6 @@ export enum Routes {
   register = 'register',
   verification = 'verification',
   paymentMethod = 'paymentMethod',
+  resetPassword = 'resetPassword',
   test = 'test',
 }
