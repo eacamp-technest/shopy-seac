@@ -15,4 +15,10 @@ export type NavigationParamList = {
   [Routes.resetPassword]: undefined;
   [Routes.paymentMethod]: undefined;
   [Routes.test]: undefined;
+  [Routes.home]: undefined;
+  [Routes.notification]: undefined;
+  [Routes.account]: undefined;
+  [Routes.discovery]: undefined;
+  [Routes.bookmark]: undefined;
+  [Routes.tabNavigator]: undefined;
 };
