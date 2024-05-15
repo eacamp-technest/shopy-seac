@@ -4,10 +4,11 @@ import {
   TextInput,
   Text,
   Pressable,
-  Keyboard,
   KeyboardTypeOptions,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {TypographyStyles} from 'theme/typography';
 import {SvgImage} from './SvgImage';
 import {colors} from 'theme/colors';
@@ -20,15 +21,17 @@ interface ITextInput {
   captionText?: string;
   rightIcon?: NodeRequire;
   leftIcon?: NodeRequire;
+  disabled?: boolean;
   secureText?: boolean;
   errorMessage?: string;
+  style?: StyleProp<ViewStyle>;
+  value?: string;
+  setValue?: (value: string) => void;
   keyboardType?: KeyboardTypeOptions;
   onRightPressed?: () => void;
-  onChangeText?: (value: string) => void;
 }
 
 export const CustomTextInput: React.FC<ITextInput> = ({
-  onChangeText,
   onRightPressed,
   labelText,
   captionText,
@@ -38,22 +41,12 @@ export const CustomTextInput: React.FC<ITextInput> = ({
   errorMessage,
   keyboardType,
   secureText = false,
+  value,
+  setValue,
+  disabled,
+  style,
 }) => {
   const [isFocus, changeFocus] = useState(false);
-
-  useEffect(() => {
-    const keyBoardId1 = Keyboard.addListener('keyboardDidShow', () => {
-      changeFocus(true);
-    });
-    const keyBoardId2 = Keyboard.addListener('keyboardDidHide', () => {
-      changeFocus(false);
-    });
-
-    return () => {
-      keyBoardId1.remove();
-      keyBoardId2.remove();
-    };
-  }, []);
 
   const getCaption = () => {
     if (errorMessage) {
@@ -65,22 +58,33 @@ export const CustomTextInput: React.FC<ITextInput> = ({
     }
   };
 
+  const onFocus = () => changeFocus(true);
+  const onBlur = () => changeFocus(false);
   return (
-    <View>
+    <View style={style}>
       {labelText && (
         <Text style={[TypographyStyles.RegularNoneSemiBold, styles.label]}>
           {labelText}
         </Text>
       )}
-      <View style={[isFocus ? styles.focusContainer : styles.container]}>
+      <View
+        style={[
+          styles.container,
+          isFocus && styles.focusContainer,
+          disabled && styles.disabled,
+        ]}>
         {leftIcon && <SvgImage source={leftIcon} />}
         <TextInput
-          onChangeText={onChangeText}
+          onChangeText={setValue}
           numberOfLines={1}
+          value={value}
           secureTextEntry={secureText}
           placeholder={placeholder}
           style={[styles.textInput]}
           keyboardType={keyboardType}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          editable={!disabled}
         />
         {rightIcon && (
           <Pressable onPress={onRightPressed}>
@@ -95,6 +99,8 @@ export const CustomTextInput: React.FC<ITextInput> = ({
 
 const styles = StyleSheet.create({
   container: {
+    height: 48,
+    width: '100%',
     borderColor: colors.sky.light,
     borderWidth: 1,
     ...CommonStyles.alignCenterJustifyBetweenRow,
@@ -109,8 +115,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: normalize('horizontal', 12),
   },
   textInput: {
-    borderColor: 'transparent',
+    height: '100%',
     flex: 1,
+    flexGrow: 1,
+  },
+  disabled: {
+    backgroundColor: colors.sky.lighter,
+    borderColor: colors.sky.lighter,
+    color: colors.sky.base,
   },
 
   label: {

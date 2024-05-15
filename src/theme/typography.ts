@@ -61,8 +61,18 @@ export const TypographyStyles = StyleSheet.create({
     fontFamily: montserratFonts[400],
     ...commonFontStyling,
   },
+  RegularNoneBold: {
+    fontSize: fontSize16,
+    fontFamily: montserratFonts[700],
+    ...commonFontStyling,
+  },
 
   RegularNoneSemiBold: {
+    fontSize: fontSize16,
+    fontFamily: montserratFonts[600],
+    ...commonFontStyling,
+  },
+  RegularNormalSemiBold: {
     fontSize: fontSize16,
     fontFamily: montserratFonts[600],
     ...commonFontStyling,
@@ -70,6 +80,11 @@ export const TypographyStyles = StyleSheet.create({
   SmallNormalRegular: {
     fontSize: fontSize14,
     fontFamily: montserratFonts[400],
+    ...commonFontStyling,
+  },
+  SmallNormalSemiBold: {
+    fontSize: fontSize14,
+    fontFamily: montserratFonts[600],
     ...commonFontStyling,
   },
   textAlignCenter: {

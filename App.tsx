@@ -9,7 +9,9 @@ import React, {useEffect} from 'react';
 import {StatusBar} from 'react-native';
 import BootSplash from 'react-native-bootsplash';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {WelcomeScreen} from 'screens/auth/Welcome.Screen';
+import Router from 'router';
+import {colors} from 'theme/colors';
+
 function App(): React.JSX.Element {
   useEffect(() => {
     const init = async () => {

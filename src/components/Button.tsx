@@ -8,18 +8,20 @@ import {
   PressableProps,
   ViewStyle,
 } from 'react-native';
-
-import {SvgImage} from './SvgImage';
-import {TTypesButton, getButtonTheme} from 'helpers/buttonTheme';
-import {CommonStyles} from 'theme/common.styles';
+import {SvgImage} from 'components/SvgImage';
 import {TypographyStyles} from 'theme/typography';
 import {normalize} from 'theme/metrics';
+import {TTypesButton, getButtonTheme} from 'helpers/buttonTheme';
+import {CommonStyles} from 'theme/common.styles';
+import {colors} from 'theme/colors';
+
+// ! Interface
 
 type TSize = 'small' | 'block' | 'large';
 type TPosition = 'left' | 'right' | 'center';
 
 interface IButton {
-  text: string;
+  text?: string;
   disabled?: boolean;
   loading?: boolean;
   size?: TSize;
@@ -54,13 +56,13 @@ export const Button: React.FC<IButton> = ({
 
   const {component: componentStyle, text: textStyle} = getButtonTheme(type, {
     press,
-    disabled,
+    disabled: disabled || loading,
   });
 
   const renderLoading = () => {
     return loading ? (
       <ActivityIndicator
-        color={textStyle.color}
+        color={colors.primary.base}
         size={'small'}
         style={StyleSheet.absoluteFillObject}
       />

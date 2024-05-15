@@ -12,6 +12,13 @@ export type NavigationParamList = {
   [Routes.login]: undefined;
   [Routes.register]: undefined;
   [Routes.verification]: undefined;
+  [Routes.resetPassword]: undefined;
   [Routes.paymentMethod]: undefined;
   [Routes.test]: undefined;
+  [Routes.home]: undefined;
+  [Routes.notification]: undefined;
+  [Routes.account]: undefined;
+  [Routes.discovery]: undefined;
+  [Routes.bookmark]: undefined;
+  [Routes.tabNavigator]: undefined;
 };
