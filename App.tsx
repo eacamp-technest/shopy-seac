@@ -10,6 +10,7 @@ import {StatusBar} from 'react-native';
 import BootSplash from 'react-native-bootsplash';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Router from 'router';
+import {colors} from 'theme/colors';
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -25,7 +26,7 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={'dark-content'} />
+      <StatusBar barStyle={'dark-content'} backgroundColor={colors.white} />
       <Router />
     </SafeAreaProvider>
   );

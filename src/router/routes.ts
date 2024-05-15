@@ -7,4 +7,10 @@ export enum Routes {
   verification = 'verification',
   paymentMethod = 'paymentMethod',
   test = 'test',
+  home = 'home',
+  notification = 'notification',
+  account = 'account',
+  discovery = 'discovery',
+  bookmark = 'bookmark',
+  tabNavigator = 'tabNavigator',
 }

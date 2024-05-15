@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
   centeredView: {
     justifyContent: 'center',
     flex: 1,
-    marginTop: normalize('vertical', 22),
   },
   body: {
     width: '100%',
