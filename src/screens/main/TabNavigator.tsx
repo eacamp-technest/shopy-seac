@@ -44,7 +44,7 @@ export const TabNavigator = () => {
           tabBarIcon: ({focused}) => (
             <SvgImage
               width={normalize('vertical', 24)}
-              height={normalize('vertical', 24)}
+              height={24}
               color={focused ? colors.primary.base : colors.sky.dark}
               source={require('../../assets/vectors/search.svg')}
             />
