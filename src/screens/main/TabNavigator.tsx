@@ -14,6 +14,7 @@ import {
   tabBarContainerStyle,
   tabBarScreenOptions,
 } from 'configs/navigation.configs';
+import {normalize} from 'theme/metrics';
 
 const Tab = createBottomTabNavigator<NavigationParamList>();
 
@@ -42,8 +43,8 @@ export const TabNavigator = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <SvgImage
-              width={24}
-              height={24}
+              width={normalize('vertical', 24)}
+              height={normalize('vertical', 24)}
               color={focused ? colors.primary.base : colors.sky.dark}
               source={require('../../assets/vectors/search.svg')}
             />
