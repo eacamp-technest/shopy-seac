@@ -25,7 +25,6 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={'dark-content'} />
-
       <WelcomeScreen />
     </SafeAreaProvider>
   );
