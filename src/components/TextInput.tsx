@@ -73,7 +73,14 @@ export const CustomTextInput: React.FC<ITextInput> = ({
           isFocus && styles.focusContainer,
           disabled && styles.disabled,
         ]}>
-        {leftIcon && <SvgImage source={leftIcon} />}
+        {leftIcon && (
+          <SvgImage
+            source={leftIcon}
+            color={colors.ink.base}
+            width={normalize('vertical', 24)}
+            height={normalize('vertical', 24)}
+          />
+        )}
         <TextInput
           onChangeText={setValue}
           numberOfLines={1}
@@ -102,6 +109,7 @@ const styles = StyleSheet.create({
     height: 48,
     width: '100%',
     borderColor: colors.sky.light,
+    backgroundColor: colors.white,
     borderWidth: 1,
     ...CommonStyles.alignCenterJustifyBetweenRow,
     borderRadius: normalize('vertical', 8),

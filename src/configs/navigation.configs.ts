@@ -21,12 +21,12 @@ export const authStackScreenOption: NativeStackNavigationOptions = {
 };
 
 export const tabBarContainerStyle: StyleProp<ViewStyle> = {
-  paddingHorizontal: normalize('vertical', 24),
   backgroundColor: colors.white,
 };
 
 export const tabBarScreenOptions: BottomTabNavigationOptions = {
   headerShown: false,
   tabBarShowLabel: false,
-  tabBarStyle: {height: 56},
+  tabBarHideOnKeyboard: false,
+  tabBarStyle: {height: normalize('height', 56)},
 };
