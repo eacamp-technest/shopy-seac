@@ -26,8 +26,8 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={'dark-content'} />
-      <WelcomeScreen />
+      <StatusBar barStyle={'dark-content'} backgroundColor={colors.white} />
+      <Router />
     </SafeAreaProvider>
   );
 }

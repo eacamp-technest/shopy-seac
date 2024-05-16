@@ -35,7 +35,10 @@ export const AuthRouter = () => {
         />
         <AuthStack.Screen name={Routes.login} component={LoginScreen} />
         <AuthStack.Screen name={Routes.register} component={RegisterScreen} />
-        <AuthStack.Screen name={Routes.resetPassword} component={ResetPasswordScreen} />
+        <AuthStack.Screen
+          name={Routes.resetPassword}
+          component={ResetPasswordScreen}
+        />
         <AuthStack.Screen
           name={Routes.verification}
           component={VerificationScreen}

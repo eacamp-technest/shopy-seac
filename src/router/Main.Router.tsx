@@ -8,7 +8,9 @@ const MainStack = createNativeStackNavigator<NavigationParamList>();
 
 export const MainRouter = () => {
   return (
-    <MainStack.Navigator screenOptions={{headerShown: false}}>
+    <MainStack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName={Routes.tabNavigator}>
       <MainStack.Screen name={Routes.tabNavigator} component={TabNavigator} />
     </MainStack.Navigator>
   );
