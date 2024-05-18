@@ -13,6 +13,8 @@ import {TypographyStyles} from 'theme/typography';
 import {normalize} from 'theme/metrics';
 import {CustomTextInput} from 'components/TextInput';
 import {SceneMap, TabBar, TabBarProps, TabView} from 'react-native-tab-view';
+import {InStoreView} from 'views/InStore.View';
+import {AllStoreView} from 'views/AllStore.View';
 
 type CustomTabBarProps = TabBarProps<any>;
 
@@ -36,22 +38,6 @@ export const HomeScreen = () => {
           height={normalize('vertical', 24)}
         />
       </Pressable>
-    );
-  };
-
-  const AllStoreView = () => {
-    return (
-      <View style={{flex: 1, backgroundColor: 'red'}}>
-        <Text style={{color: colors.black}}>All Store</Text>
-      </View>
-    );
-  };
-
-  const InStoreView = () => {
-    return (
-      <View style={{flex: 1, backgroundColor: 'blue'}}>
-        <Text style={{color: colors.black}}>In Store</Text>
-      </View>
     );
   };
 
@@ -96,6 +82,7 @@ export const HomeScreen = () => {
             navigationState={{index, routes}}
             renderScene={renderScene}
             onIndexChange={setIndex}
+            swipeEnabled={false}
             initialLayout={{width: layout.width}}
             renderTabBar={renderTabBar}
           />
@@ -134,13 +121,13 @@ const styles = StyleSheet.create({
     marginBottom: normalize('horizontal', 24),
   },
   tabView: {
-    marginTop: 24,
-    height: '100%',
+    marginTop: normalize('vertical', 24),
     backgroundColor: colors.white,
+    height: normalize('height', 610),
   },
   tabBar: {backgroundColor: colors.bdazzledBlue.darkest},
   body: {
-    paddingHorizontal: 12,
+    paddingHorizontal: normalize('horizontal', 12),
   },
   indicator: {backgroundColor: colors.skyBlue.base},
 });
