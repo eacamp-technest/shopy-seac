@@ -88,7 +88,7 @@ export const TabNavigator = () => {
               width={24}
               height={24}
               color={focused ? colors.primary.base : colors.sky.dark}
-              source={require('../../assets/vectors/settings.svg')}
+              source={require('../../assets/vectors/menu.svg')}
             />
           ),
         }}

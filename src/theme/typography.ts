@@ -18,6 +18,7 @@ const fontSize24 = normalize('font', 24);
 const fontSize18 = normalize('font', 18);
 const fontSize16 = normalize('font', 16);
 const fontSize14 = normalize('font', 14);
+const fontSize12 = normalize('font', 12);
 
 const commonFontStyling: TextStyle = {
   includeFontPadding: false,
@@ -77,6 +78,11 @@ export const TypographyStyles = StyleSheet.create({
     fontFamily: montserratFonts[600],
     ...commonFontStyling,
   },
+  RegularTightSemiBold: {
+    fontSize: fontSize16,
+    fontFamily: montserratFonts[600],
+    ...commonFontStyling,
+  },
   SmallNormalRegular: {
     fontSize: fontSize14,
     fontFamily: montserratFonts[400],
@@ -85,6 +91,16 @@ export const TypographyStyles = StyleSheet.create({
   SmallNormalSemiBold: {
     fontSize: fontSize14,
     fontFamily: montserratFonts[600],
+    ...commonFontStyling,
+  },
+  TinyNormalBold: {
+    fontSize: fontSize12,
+    fontFamily: montserratFonts[600],
+    ...commonFontStyling,
+  },
+  TinyNormalRegular: {
+    fontSize: fontSize12,
+    fontFamily: montserratFonts[400],
     ...commonFontStyling,
   },
   textAlignCenter: {
