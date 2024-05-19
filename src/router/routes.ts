@@ -14,4 +14,5 @@ export enum Routes {
   discovery = 'discovery',
   bookmark = 'bookmark',
   tabNavigator = 'tabNavigator',
+  popularProducts = 'popularProducts',
 }

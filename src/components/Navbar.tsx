@@ -1,4 +1,11 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+} from 'react-native';
 import React from 'react';
 import {TypographyStyles} from 'theme/typography';
 import {CommonStyles} from 'theme/common.styles';
@@ -26,6 +33,7 @@ interface INavBar {
   onRightPress?: () => void;
   leftActionType?: NavbarActions;
   rightActionType?: NavbarActions;
+  titleStyle?: StyleProp<TextStyle>;
 }
 
 export const Navbar: React.FC<INavBar> = ({
@@ -37,11 +45,12 @@ export const Navbar: React.FC<INavBar> = ({
   title,
   onLeftPress,
   onRightPress,
+  titleStyle,
 }) => {
   if (type === 'large') {
     return (
       <View style={styles.large}>
-        <Text style={TypographyStyles.title2}>{title}</Text>
+        <Text style={[TypographyStyles.title2, titleStyle]}>{title}</Text>
       </View>
     );
   }
@@ -110,7 +119,7 @@ export const Navbar: React.FC<INavBar> = ({
         style={[styles.action, !leftActionType && styles.hide]}>
         {renderActions(leftActionType, left, 'left')}
       </Pressable>
-      <Text style={TypographyStyles.title3}>{title}</Text>
+      <Text style={[TypographyStyles.title3, titleStyle]}>{title}</Text>
       <Pressable
         disabled={!onRightPress || rightActionType === 'button'}
         onPress={onRightPress}

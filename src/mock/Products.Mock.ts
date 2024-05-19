@@ -7,6 +7,35 @@ export interface IProduct {
   category?: string;
 }
 
+export const popularProducts: Array<IProduct> = [
+  {
+    name: 'Puma',
+    image: 'https://cdn.dotpe.in/longtail/store-items/5418295/LMGoaTZP.jpeg',
+    id: '1',
+    price: '100',
+    producer: 'puma.com',
+    category: 'Shoes',
+  },
+  {
+    name: 'Nike Air Max',
+    image:
+      'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/bfc04b0f-32d9-48a9-b4b7-7acb7fbcb54b/air-max-90-ayakkab%C4%B1s%C4%B1-cSlczl.png',
+    id: '2',
+    price: '120',
+    producer: 'nike.com',
+    category: 'Shoes',
+  },
+  {
+    name: 'Adidas Ultraboost',
+    image:
+      'https://assets.adidas.com/images/w_600,f_auto,q_auto/e711a37af3424846b5470558bcd2bcb7_9366/ULTRABOOST_LIGHT_Grey_IE1759_01_standard.jpg',
+    id: '3',
+    price: '150',
+    producer: 'adidas.com',
+    category: 'Shoes',
+  },
+];
+
 export const productsArray: Array<IProduct> = [
   {
     name: 'Puma',
