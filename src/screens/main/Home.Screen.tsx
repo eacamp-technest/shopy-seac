@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import {
   View,
   StyleSheet,
@@ -15,10 +16,15 @@ import {CustomTextInput} from 'components/TextInput';
 import {SceneMap, TabBar, TabBarProps, TabView} from 'react-native-tab-view';
 import {InStoreView} from 'views/InStore.View';
 import {AllStoreView} from 'views/AllStore.View';
+import {Routes} from 'router/routes';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {NavigationParamList} from 'types/navigation.types';
 
 type CustomTabBarProps = TabBarProps<any>;
 
-export const HomeScreen = () => {
+export const HomeScreen: React.FC<
+  NativeStackScreenProps<NavigationParamList, Routes.home>
+> = ({navigation}) => {
   const [index, setIndex] = React.useState(0);
   const routesArray = [
     {key: 'allStore', title: 'All Stores'},
@@ -42,7 +48,7 @@ export const HomeScreen = () => {
   };
 
   const renderScene = SceneMap({
-    allStore: AllStoreView,
+    allStore: () => <AllStoreView navigation={navigation} />,
     inStore: InStoreView,
   });
 

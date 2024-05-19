@@ -1,7 +1,14 @@
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
 import React from 'react';
 import {FlashList} from '@shopify/flash-list';
-import {colors} from 'theme/colors';
 import {TypographyStyles} from 'theme/typography';
 import {normalize} from 'theme/metrics';
 
@@ -9,12 +16,20 @@ interface ICategories {
   categories: Array<string>;
   category: string;
   setCategory: (value: string) => void;
+  inActiveContainer?: StyleProp<ViewStyle>;
+  inActiveText?: StyleProp<TextStyle>;
+  activeText?: StyleProp<TextStyle>;
+  activeContainer?: StyleProp<ViewStyle>;
 }
 
 export const Categories: React.FC<ICategories> = ({
   categories,
   category,
   setCategory,
+  inActiveContainer: inActiveStyle,
+  activeContainer: activeStyle,
+  activeText: activeTextStyle,
+  inActiveText: inActiveTextStyle,
 }) => {
   const handleCategoryPress = (item: string) => setCategory(item);
 
@@ -23,9 +38,14 @@ export const Categories: React.FC<ICategories> = ({
 
     return (
       <Pressable onPress={() => handleCategoryPress(item)}>
-        <View style={[styles.container, isSelected && styles.pressedContainer]}>
+        <View
+          style={[styles.container, inActiveStyle, isSelected && activeStyle]}>
           <Text
-            style={[styles.category, isSelected && styles.selectedCategory]}>
+            style={[
+              styles.category,
+              inActiveTextStyle,
+              isSelected && activeTextStyle,
+            ]}>
             {item}
           </Text>
         </View>
@@ -34,23 +54,19 @@ export const Categories: React.FC<ICategories> = ({
   };
 
   return (
-    <View style={styles.root}>
-      <FlashList
-        data={categories}
-        estimatedItemSize={categories.length}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        horizontal={true}
-        renderItem={renderItem}
-      />
-    </View>
+    <FlashList
+      data={categories}
+      estimatedItemSize={categories.length}
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      horizontal={true}
+      renderItem={renderItem}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  root: {},
   container: {
-    backgroundColor: colors.sky.lightest,
     paddingHorizontal: normalize('horizontal', 16),
     paddingVertical: normalize('vertical', 8),
     borderRadius: normalize('vertical', 100),
@@ -58,12 +74,5 @@ const styles = StyleSheet.create({
   },
   category: {
     ...TypographyStyles.RegularNoneRegular,
-    color: colors.ink.base,
-  },
-  selectedCategory: {
-    color: colors.white,
-  },
-  pressedContainer: {
-    backgroundColor: colors.primary.base,
   },
 });

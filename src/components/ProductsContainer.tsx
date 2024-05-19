@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     gap: normalize('vertical', 16),
   },
   horizontalRoot: {
-    gap: normalize('horizontal', 8),
     marginTop: normalize('horizontal', 8),
   },
   largeImage: {
