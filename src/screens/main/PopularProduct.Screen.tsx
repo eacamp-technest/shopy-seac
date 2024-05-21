@@ -1,5 +1,5 @@
-import {StyleSheet, ScrollView, View} from 'react-native';
-import React, {useState} from 'react';
+import {StyleSheet, ScrollView, View, Text} from 'react-native';
+import React, {useRef, useState} from 'react';
 import {Navbar} from 'components/Navbar';
 import {colors} from 'theme/colors';
 import {Categories} from 'components/Categories';
@@ -10,11 +10,18 @@ import {normalize} from 'theme/metrics';
 import {FlashList} from '@shopify/flash-list';
 import {IProduct, productsArray} from 'mock/Products.Mock';
 import {ProductsCart} from 'components/ProductsContainer';
+import BottomSheet, {IBottomSheetRef} from 'components/BottomSheet';
+import {TypographyStyles} from 'theme/typography';
+import {Button} from 'components/Button';
+import {CustomCheckBox} from 'components/CheckBox';
 
 export const PopularProductsScreen: React.FC<
   NativeStackScreenProps<NavigationParamList, Routes.popularProducts>
 > = ({navigation}) => {
+  const ref = useRef<IBottomSheetRef>(null);
+
   const categories = ['All', 'Shoes', 'T-Shirt', 'Tops', 'Sinkers', 'Blues'];
+
   const [category, setCategory] = useState<string>(categories[0] ?? '');
 
   const renderItem = ({item}: {item: IProduct}) => {
@@ -40,7 +47,7 @@ export const PopularProductsScreen: React.FC<
           left={vectors.chevronLeft}
           leftActionType="icon"
           onLeftPress={() => navigation.goBack()}
-          onRightPress={() => console.log('Right pressed')}
+          onRightPress={() => ref.current?.open()}
           right={vectors.slider}
           rightActionType="icon"
           title="Most Popular"
@@ -66,6 +73,15 @@ export const PopularProductsScreen: React.FC<
           renderItem={renderItem}
         />
       </View>
+      <BottomSheet ref={ref}>
+        <View style={styles.bottomSheetBody}>
+          <Text style={styles.text}>Sort By</Text>
+          <Text style={styles.checkBoxText}>Lowest Price</Text>
+          <Text style={styles.checkBoxText}>Relevance</Text>
+          <CustomCheckBox />
+        </View>
+        <Button text="Apply" onPress={() => ref.current?.close()} />
+      </BottomSheet>
     </ScrollView>
   );
 };
@@ -109,5 +125,17 @@ const styles = StyleSheet.create({
   },
   cart: {
     marginBottom: normalize('vertical', 24),
+  },
+  text: {
+    ...TypographyStyles.title3,
+    color: 'black',
+  },
+  checkBoxText: {
+    ...TypographyStyles.RegularTightRegular,
+    color: colors.ink.darkest,
+  },
+  bottomSheetBody: {
+    gap: normalize('vertical', 15),
+    marginBottom: normalize('vertical', 43.6),
   },
 });
