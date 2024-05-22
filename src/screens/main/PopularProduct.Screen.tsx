@@ -15,15 +15,53 @@ import {TypographyStyles} from 'theme/typography';
 import {Button} from 'components/Button';
 import {CustomCheckBox} from 'components/CheckBox';
 
-export const PopularProductsScreen: React.FC<
-  NativeStackScreenProps<NavigationParamList, Routes.popularProducts>
-> = ({navigation}) => {
+type ScreenProb = NativeStackScreenProps<
+  NavigationParamList,
+  Routes.popularProducts
+>;
+
+export const PopularProductsScreen: React.FC<ScreenProb> = ({navigation}) => {
   const ref = useRef<IBottomSheetRef>(null);
+  const boxesArray = [
+    {
+      id: 1,
+      title: 'Lowest price',
+      isSelected: false,
+    },
+    {
+      id: 1,
+      title: 'Relevance',
+      isSelected: false,
+    },
+  ];
+
+  const [checkBoxes, setCheckBoxes] = useState(boxesArray);
 
   const categories = ['All', 'Shoes', 'T-Shirt', 'Tops', 'Sinkers', 'Blues'];
 
   const [category, setCategory] = useState<string>(categories[0] ?? '');
 
+  const toggle = (index: number) => {
+    const updatedCheckBoxes = checkBoxes.map((checkBox, i) => ({
+      ...checkBox,
+      isSelected: index === i ? !checkBox.isSelected : false,
+    }));
+
+    setCheckBoxes(updatedCheckBoxes);
+  };
+
+  const renderCheckBoxes = () => {
+    return checkBoxes.map((checkBox, index) => {
+      return (
+        <CustomCheckBox
+          key={index}
+          isSelected={checkBox.isSelected}
+          title={checkBox.title}
+          setSelection={() => toggle(index)}
+        />
+      );
+    });
+  };
   const renderItem = ({item}: {item: IProduct}) => {
     return (
       <ProductsCart
@@ -76,9 +114,7 @@ export const PopularProductsScreen: React.FC<
       <BottomSheet ref={ref}>
         <View style={styles.bottomSheetBody}>
           <Text style={styles.text}>Sort By</Text>
-          <Text style={styles.checkBoxText}>Lowest Price</Text>
-          <Text style={styles.checkBoxText}>Relevance</Text>
-          <CustomCheckBox />
+          <View style={styles.checkBoxesView}>{renderCheckBoxes()}</View>
         </View>
         <Button text="Apply" onPress={() => ref.current?.close()} />
       </BottomSheet>
@@ -130,12 +166,11 @@ const styles = StyleSheet.create({
     ...TypographyStyles.title3,
     color: 'black',
   },
-  checkBoxText: {
-    ...TypographyStyles.RegularTightRegular,
-    color: colors.ink.darkest,
-  },
   bottomSheetBody: {
     gap: normalize('vertical', 15),
     marginBottom: normalize('vertical', 43.6),
+  },
+  checkBoxesView: {
+    gap: normalize('horizontal', 20),
   },
 });
