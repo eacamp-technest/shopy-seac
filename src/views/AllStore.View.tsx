@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TypographyStyles} from 'theme/typography';
 import {colors} from 'theme/colors';
 import {Categories} from 'components/Categories';
@@ -19,6 +19,14 @@ type AllStoreViewProps = {
 export const AllStoreView: React.FC<AllStoreViewProps> = ({navigation}) => {
   const categories = ['All', 'Shoes', 'T-Shirt', 'Tops', 'Sinkers', 'Blues'];
   const [category, setCategory] = useState<string>(categories[0] ?? '');
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      return productsArray;
+    }, 2000);
+
+    return () => clearTimeout(id);
+  }, []);
 
   const renderItem = ({item}: {item: IProduct}) => {
     return (
@@ -66,6 +74,8 @@ export const AllStoreView: React.FC<AllStoreViewProps> = ({navigation}) => {
         <FlashList
           data={productsArray}
           estimatedItemSize={productsArray.length}
+          estimatedListSize={{height: 217, width: 156}}
+          keyExtractor={item => item.id!}
           numColumns={2}
           scrollEnabled={false}
           showsHorizontalScrollIndicator={false}

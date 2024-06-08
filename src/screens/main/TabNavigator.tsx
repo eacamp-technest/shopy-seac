@@ -4,7 +4,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationParamList} from 'types/navigation.types';
 import {Routes} from 'router/routes';
 import DiscoveryScreen from './Discovery.Screen';
-import BookmarkScreen from './Bookmark.Screen';
 import NotificationScreen from './Notification.Screen';
 import AccountScreen from './Account.Screen';
 import {SvgImage} from 'components/SvgImage';
@@ -15,6 +14,7 @@ import {
   tabBarScreenOptions,
 } from 'configs/navigation.configs';
 import {normalize} from 'theme/metrics';
+import {BookmarkScreen} from './Bookmark.Screen';
 
 const Tab = createBottomTabNavigator<NavigationParamList>();
 
