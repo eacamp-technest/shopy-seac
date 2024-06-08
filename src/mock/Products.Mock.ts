@@ -34,6 +34,51 @@ export const popularProducts: Array<IProduct> = [
     producer: 'adidas.com',
     category: 'Shoes',
   },
+  {
+    name: 'Adidas Ultraboost',
+    image:
+      'https://assets.adidas.com/images/w_600,f_auto,q_auto/e711a37af3424846b5470558bcd2bcb7_9366/ULTRABOOST_LIGHT_Grey_IE1759_01_standard.jpg',
+    id: '3',
+    price: '150',
+    producer: 'adidas.com',
+    category: 'Shoes',
+  },
+  {
+    name: 'Adidas Ultraboost',
+    image:
+      'https://assets.adidas.com/images/w_600,f_auto,q_auto/e711a37af3424846b5470558bcd2bcb7_9366/ULTRABOOST_LIGHT_Grey_IE1759_01_standard.jpg',
+    id: '3',
+    price: '150',
+    producer: 'adidas.com',
+    category: 'Shoes',
+  },
+  {
+    name: 'Adidas Ultraboost',
+    image:
+      'https://assets.adidas.com/images/w_600,f_auto,q_auto/e711a37af3424846b5470558bcd2bcb7_9366/ULTRABOOST_LIGHT_Grey_IE1759_01_standard.jpg',
+    id: '3',
+    price: '150',
+    producer: 'adidas.com',
+    category: 'Shoes',
+  },
+  {
+    name: 'Adidas Ultraboost',
+    image:
+      'https://assets.adidas.com/images/w_600,f_auto,q_auto/e711a37af3424846b5470558bcd2bcb7_9366/ULTRABOOST_LIGHT_Grey_IE1759_01_standard.jpg',
+    id: '3',
+    price: '150',
+    producer: 'adidas.com',
+    category: 'Shoes',
+  },
+  {
+    name: 'Adidas Ultraboost',
+    image:
+      'https://assets.adidas.com/images/w_600,f_auto,q_auto/e711a37af3424846b5470558bcd2bcb7_9366/ULTRABOOST_LIGHT_Grey_IE1759_01_standard.jpg',
+    id: '3',
+    price: '150',
+    producer: 'adidas.com',
+    category: 'Shoes',
+  },
 ];
 
 export const productsArray: Array<IProduct> = [

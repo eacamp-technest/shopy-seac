@@ -11,12 +11,14 @@ import React from 'react';
 import {TypographyStyles} from 'theme/typography';
 import {colors} from 'theme/colors';
 import {normalize} from 'theme/metrics';
+import {SvgImage} from './SvgImage';
 
 type TType = 'horizontal' | 'vertical';
 
 interface IProductCart {
   type: TType;
   image: string;
+  hasActions?: boolean;
   name: string;
   price: string;
   producer: string;
@@ -32,12 +34,17 @@ export const ProductsCart: React.FC<IProductCart> = ({
   onPressed,
   style,
   type,
+  hasActions,
 }) => {
   return (
     <Pressable onPress={onPressed}>
       <View style={[type === 'vertical' && styles.verticalRoot, style]}>
         <Image
-          style={[styles.largeImage, type === 'vertical' && styles.smallImage]}
+          style={[
+            styles.largeImage,
+            type === 'vertical' && styles.smallImage,
+            hasActions && styles.actionImage,
+          ]}
           source={{
             uri: image !== null ? image : '',
           }}
@@ -53,6 +60,19 @@ export const ProductsCart: React.FC<IProductCart> = ({
             <Text numberOfLines={1} style={styles.producer}>
               {producer !== null ? producer : ''}
             </Text>
+          )}
+          {type === 'vertical' && hasActions && (
+            <View style={styles.actions}>
+              <Pressable style={styles.moveAction}>
+                <Text style={styles.actionText}>Move to back</Text>
+              </Pressable>
+              <SvgImage
+                source={require('../assets/vectors/heart.svg')}
+                color={colors.red.light}
+                height={normalize('width', 22)}
+                width={normalize('width', 22)}
+              />
+            </View>
           )}
         </View>
       </View>
@@ -89,5 +109,26 @@ const styles = StyleSheet.create({
   producer: {
     ...TypographyStyles.TinyNormalRegular,
     color: colors.ink.lighter,
+  },
+  actionImage: {
+    width: normalize('width', 100),
+    height: normalize('height', 100),
+  },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: normalize('vertical', 18),
+    width: '80%',
+  },
+  moveAction: {
+    backgroundColor: colors.sky.lightest,
+    paddingHorizontal: normalize('horizontal', 16),
+    paddingVertical: normalize('vertical', 7),
+    borderRadius: normalize('vertical', 8),
+  },
+  actionText: {
+    ...TypographyStyles.RegularNoneRegular,
+    color: colors.ink.base,
   },
 });
