@@ -116,7 +116,13 @@ export const PopularProductsScreen: React.FC<ScreenProb> = ({navigation}) => {
           <Text style={styles.text}>Sort By</Text>
           <View style={styles.checkBoxesView}>{renderCheckBoxes()}</View>
         </View>
-        <Button text="Apply" onPress={() => ref.current?.close()} />
+        <Button
+          text="Apply"
+          onPress={() => {
+            ref.current?.close();
+            navigation.navigate(Routes.itemList);
+          }}
+        />
       </BottomSheet>
     </ScrollView>
   );
