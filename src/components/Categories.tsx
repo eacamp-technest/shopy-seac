@@ -1,4 +1,4 @@
-import {
+/* import {
   View,
   Text,
   StyleSheet,
@@ -14,8 +14,8 @@ import {normalize} from 'theme/metrics';
 
 interface ICategories {
   categories: Array<string>;
-  category: string;
-  setCategory: (value: string) => void;
+  onPressed: () => void;
+  isSelected: boolean;
   inActiveContainer?: StyleProp<ViewStyle>;
   inActiveText?: StyleProp<TextStyle>;
   activeText?: StyleProp<TextStyle>;
@@ -24,20 +24,18 @@ interface ICategories {
 
 export const Categories: React.FC<ICategories> = ({
   categories,
-  category,
-  setCategory,
   inActiveContainer: inActiveStyle,
   activeContainer: activeStyle,
   activeText: activeTextStyle,
   inActiveText: inActiveTextStyle,
+  isSelected,
 }) => {
-  const handleCategoryPress = (item: string) => setCategory(item);
-
   const renderItem = ({item}: {item: string}) => {
-    const isSelected = category === item;
-
     return (
-      <Pressable onPress={() => handleCategoryPress(item)}>
+      <Pressable
+        onPress={() => {
+          console.log(item);
+        }}>
         <View
           style={[styles.container, inActiveStyle, isSelected && activeStyle]}>
           <Text
@@ -76,3 +74,4 @@ const styles = StyleSheet.create({
     ...TypographyStyles.RegularNoneRegular,
   },
 });
+ */

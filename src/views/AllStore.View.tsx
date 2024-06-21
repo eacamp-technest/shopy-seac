@@ -2,7 +2,6 @@ import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {TypographyStyles} from 'theme/typography';
 import {colors} from 'theme/colors';
-import {Categories} from 'components/Categories';
 import {CommonStyles} from 'theme/common.styles';
 import {normalize} from 'theme/metrics';
 import {IProduct, popularProducts, productsArray} from 'mock/Products.Mock';
@@ -16,10 +15,66 @@ type AllStoreViewProps = {
   navigation: NativeStackNavigationProp<NavigationParamList, Routes.home>;
 };
 
+const SectionHeader = (
+  title: string,
+  buttonName: string,
+  onPress: () => void,
+) => {
+  return (
+    <View style={styles.sectionHeader}>
+      <Text style={styles.title}>{title}</Text>
+      {
+        <Pressable onPress={onPress}>
+          <Text style={styles.buttonName}>{buttonName}</Text>
+        </Pressable>
+      }
+    </View>
+  );
+};
+
+const renderItem = ({item}: {item: IProduct}) => {
+  return (
+    <ProductsCart
+      style={styles.container}
+      type="horizontal"
+      image={item.image ?? ''}
+      name={item.name ?? ''}
+      price={`$${item.price}`}
+      producer={item.producer ?? ''}
+    />
+  );
+};
+
+const renderPopular = ({item}: {item: IProduct}) => {
+  return (
+    <ProductsCart
+      style={styles.popular}
+      type="vertical"
+      onPressed={() => console.log('Popular products')}
+      image={item.image ?? ''}
+      name={item.name ?? ''}
+      price={`$${item.price}`}
+      producer={item.producer ?? ''}
+    />
+  );
+};
+
 export const AllStoreView: React.FC<AllStoreViewProps> = ({navigation}) => {
   const categories = ['All', 'Shoes', 'T-Shirt', 'Tops', 'Sinkers', 'Blues'];
-  const [category, setCategory] = useState<string>(categories[0] ?? '');
+  const [category, setCategory] = useState<string>('');
 
+  const renderCategories = ({item}: {item: string}) => {
+    const isSelected = item === category && styles.activeContainer;
+    return (
+      <Pressable
+        style={[styles.inactiveContainer, isSelected && styles.activeContainer]}
+        onPress={() => setCategory(item)}>
+        <Text style={[styles.inActiveText, isSelected && styles.activeText]}>
+          {item}
+        </Text>
+      </Pressable>
+    );
+  };
   useEffect(() => {
     const id = setTimeout(() => {
       return productsArray;
@@ -28,47 +83,19 @@ export const AllStoreView: React.FC<AllStoreViewProps> = ({navigation}) => {
     return () => clearTimeout(id);
   }, []);
 
-  const renderItem = ({item}: {item: IProduct}) => {
-    return (
-      <ProductsCart
-        style={styles.container}
-        type="horizontal"
-        image={item.image ?? ''}
-        name={item.name ?? ''}
-        price={`$${item.price}`}
-        producer={item.producer ?? ''}
-      />
-    );
-  };
-
-  const renderPopular = ({item}: {item: IProduct}) => {
-    return (
-      <ProductsCart
-        style={styles.popular}
-        type="vertical"
-        onPressed={() => console.log('Popular products')}
-        image={item.image ?? ''}
-        name={item.name ?? ''}
-        price={`$${item.price}`}
-        producer={item.producer ?? ''}
-      />
-    );
-  };
-
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       scrollEnabled={true}
       style={styles.root}>
       {SectionHeader('Categories', 'See all', () => {})}
-      <Categories
-        categories={categories}
-        category={category}
-        setCategory={setCategory}
-        activeContainer={styles.activeContainer}
-        activeText={styles.activeText}
-        inActiveContainer={styles.inActiveContainer}
-        inActiveText={styles.inActiveText}
+      <FlashList
+        data={categories}
+        estimatedItemSize={50}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}
+        renderItem={renderCategories}
       />
       <View style={styles.products}>
         <FlashList
@@ -98,24 +125,17 @@ export const AllStoreView: React.FC<AllStoreViewProps> = ({navigation}) => {
   );
 };
 
-const SectionHeader = (
-  title: string,
-  buttonName: string,
-  onPress: () => void,
-) => {
-  return (
-    <View style={styles.sectionHeader}>
-      <Text style={styles.title}>{title}</Text>
-      {
-        <Pressable onPress={onPress}>
-          <Text style={styles.buttonName}>{buttonName}</Text>
-        </Pressable>
-      }
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
+  activeContainer: {
+    backgroundColor: colors.primary.base,
+  },
+  inactiveContainer: {
+    backgroundColor: colors.sky.lightest,
+    paddingHorizontal: normalize('horizontal', 16),
+    paddingVertical: normalize('vertical', 8),
+    borderRadius: normalize('vertical', 100),
+    marginRight: normalize('horizontal', 10),
+  },
   root: {
     marginHorizontal: normalize('horizontal', 24),
     marginTop: normalize('vertical', 28),
@@ -141,10 +161,9 @@ const styles = StyleSheet.create({
     marginRight: normalize('horizontal', 16),
   },
 
-  activeText: {color: colors.white},
+  activeText: {...TypographyStyles.RegularNoneRegular, color: colors.white},
   inActiveText: {
     color: colors.ink.base,
+    ...TypographyStyles.RegularNoneRegular,
   },
-  activeContainer: {backgroundColor: colors.primary.base},
-  inActiveContainer: {backgroundColor: colors.sky.lightest},
 });

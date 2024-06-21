@@ -2,9 +2,11 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {FlashList} from '@shopify/flash-list';
 import {Navbar} from 'components/Navbar';
 import {ProductsCart} from 'components/ProductsContainer';
+import {IBrand, brands} from 'mock/Brands.Mock';
 import {IProduct, productsArray} from 'mock/Products.Mock';
 import React from 'react';
 import {
+  Image,
   Pressable,
   ScrollView,
   StatusBar,
@@ -13,6 +15,7 @@ import {
   View,
 } from 'react-native';
 import {Routes} from 'router/routes';
+import {useCategoryStore} from 'store/brand/brand.store';
 import {colors} from 'theme/colors';
 import {normalize} from 'theme/metrics';
 import {TypographyStyles} from 'theme/typography';
@@ -57,12 +60,22 @@ const renderItem = ({item}: {item: IProduct}) => {
   );
 };
 
+const renderBrands = ({item}: {item: IBrand}) => {
+  return (
+    <View style={styles.brandCart}>
+      <Image style={styles.brandLogo} source={item.image} />
+      <Text>{item.name}</Text>
+    </View>
+  );
+};
+
 type ItemListScreenProb = NativeStackScreenProps<
   NavigationParamList,
   Routes.itemList
 >;
 
 export const ItemListScreen: React.FC<ItemListScreenProb> = ({navigation}) => {
+  const brandStore = useCategoryStore();
   return (
     <ScrollView
       scrollEnabled={true}
@@ -75,19 +88,21 @@ export const ItemListScreen: React.FC<ItemListScreenProb> = ({navigation}) => {
         type="standard"
         onRightPress={() => {}}
         onLeftPress={() => navigation.goBack()}
-        title="Filter"
+        title={brandStore.category}
         left={vectors.leftChevron}
         leftActionType="icon"
         rightActionType="icon"
       />
       <HeaderRow left="Brand" right="See All" onRight={() => {}} />
-      <View
-        style={{
-          height: 94,
-          backgroundColor: colors.primary.light,
-          marginVertical: 40,
-        }}
-      />
+      <View style={styles.brandsView}>
+        <FlashList
+          renderItem={renderBrands}
+          data={brands}
+          estimatedItemSize={brands.length}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+        />
+      </View>
       <View style={styles.products}>
         <HeaderRow left="Product" right="See All" onRight={() => {}} />
         <FlashList
@@ -113,6 +128,15 @@ const styles = StyleSheet.create({
   products: {
     gap: normalize('horizontal', 20),
   },
+  brandsView: {
+    marginVertical: normalize('vertical', 40),
+  },
+  brandLogo: {height: normalize('width', 70), width: normalize('width', 70)},
+  brandCart: {
+    alignItems: 'center',
+    marginRight: normalize('horizontal', 16),
+  },
+  brandName: {...TypographyStyles.TinyNoneSemiBold},
 });
 
 const vectors = {
