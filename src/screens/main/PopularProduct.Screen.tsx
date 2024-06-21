@@ -1,8 +1,14 @@
-import {StyleSheet, ScrollView, View, Text} from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  Pressable,
+  StatusBar,
+} from 'react-native';
 import React, {useRef, useState} from 'react';
 import {Navbar} from 'components/Navbar';
 import {colors} from 'theme/colors';
-import {Categories} from 'components/Categories';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {NavigationParamList} from 'types/navigation.types';
 import {Routes} from 'router/routes';
@@ -14,32 +20,38 @@ import BottomSheet, {IBottomSheetRef} from 'components/BottomSheet';
 import {TypographyStyles} from 'theme/typography';
 import {Button} from 'components/Button';
 import {CustomCheckBox} from 'components/CheckBox';
+import {useCategoryActions} from 'store/brand';
+import {useCategoryStore} from 'store/brand/brand.store';
 
-type ScreenProb = NativeStackScreenProps<
+type ScreenProp = NativeStackScreenProps<
   NavigationParamList,
   Routes.popularProducts
 >;
 
-export const PopularProductsScreen: React.FC<ScreenProb> = ({navigation}) => {
+const boxesArray = [
+  {id: 1, title: 'Lowest price', isSelected: false},
+  {id: 2, title: 'Relevance', isSelected: false},
+];
+
+const renderItem = ({item}: {item: IProduct}) => {
+  return (
+    <ProductsCart
+      style={styles.cart}
+      type="horizontal"
+      image={item.image ?? ''}
+      name={item.name ?? ''}
+      price={`$${item.price}`}
+      producer={item.producer ?? ''}
+    />
+  );
+};
+
+export const PopularProductsScreen: React.FC<ScreenProp> = ({navigation}) => {
   const ref = useRef<IBottomSheetRef>(null);
-  const boxesArray = [
-    {
-      id: 1,
-      title: 'Lowest price',
-      isSelected: false,
-    },
-    {
-      id: 1,
-      title: 'Relevance',
-      isSelected: false,
-    },
-  ];
-
   const [checkBoxes, setCheckBoxes] = useState(boxesArray);
-
   const categories = ['All', 'Shoes', 'T-Shirt', 'Tops', 'Sinkers', 'Blues'];
-
-  const [category, setCategory] = useState<string>(categories[0] ?? '');
+  const categoryActions = useCategoryActions();
+  const categoryStore = useCategoryStore();
 
   const toggle = (index: number) => {
     const updatedCheckBoxes = checkBoxes.map((checkBox, i) => ({
@@ -51,33 +63,37 @@ export const PopularProductsScreen: React.FC<ScreenProb> = ({navigation}) => {
   };
 
   const renderCheckBoxes = () => {
-    return checkBoxes.map((checkBox, index) => {
-      return (
-        <CustomCheckBox
-          key={index}
-          isSelected={checkBox.isSelected}
-          title={checkBox.title}
-          setSelection={() => toggle(index)}
-        />
-      );
-    });
-  };
-  const renderItem = ({item}: {item: IProduct}) => {
-    return (
-      <ProductsCart
-        style={styles.cart}
-        type="horizontal"
-        image={item.image ?? ''}
-        name={item.name ?? ''}
-        price={`$${item.price}`}
-        producer={item.producer ?? ''}
+    return checkBoxes.map((checkBox, index) => (
+      <CustomCheckBox
+        key={index}
+        isSelected={checkBox.isSelected}
+        title={checkBox.title}
+        setSelection={() => toggle(index)}
       />
+    ));
+  };
+
+  const renderCategories = ({item}: {item: string}) => {
+    return (
+      <Pressable
+        style={[
+          styles.inactiveContainer,
+          categoryStore.category === item && styles.activeContainer,
+        ]}
+        onPress={() => categoryActions.setCategory(item)}>
+        <Text style={styles.buttonText}>{item}</Text>
+      </Pressable>
     );
   };
+
   return (
     <ScrollView
       scrollEnabled={true}
       contentContainerStyle={styles.contentContainerStyle}>
+      <StatusBar
+        backgroundColor={colors.bdazzledBlue.darkest}
+        barStyle={'light-content'}
+      />
       <View style={styles.header}>
         <Navbar
           type="standard"
@@ -90,20 +106,19 @@ export const PopularProductsScreen: React.FC<ScreenProb> = ({navigation}) => {
           rightActionType="icon"
           title="Most Popular"
         />
-        <Categories
-          categories={categories}
-          category={category}
-          setCategory={setCategory}
-          inActiveText={styles.buttonText}
-          inActiveContainer={styles.inActiveContainer}
-          activeContainer={styles.activeContainer}
-          activeText={styles.buttonText}
+        <FlashList
+          data={categories}
+          estimatedItemSize={50}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          horizontal={true}
+          renderItem={renderCategories}
         />
       </View>
       <View style={styles.body}>
         <FlashList
           data={productsArray}
-          estimatedItemSize={productsArray.length}
+          estimatedItemSize={100}
           numColumns={2}
           scrollEnabled={false}
           showsHorizontalScrollIndicator={false}
@@ -128,25 +143,21 @@ export const PopularProductsScreen: React.FC<ScreenProb> = ({navigation}) => {
   );
 };
 
-const vectors = {
-  chevronLeft: {
-    color: colors.white,
-    height: normalize('vertical', 24),
-    width: normalize('vertical', 24),
-    icon: require('../../assets/vectors/chevron-left.svg'),
-  },
-  slider: {
-    color: colors.white,
-    height: normalize('vertical', 24),
-    width: normalize('vertical', 24),
-    icon: require('../../assets/vectors/sliders.svg'),
-  },
-};
-
 const styles = StyleSheet.create({
-  buttonText: {color: colors.white},
-  activeContainer: {backgroundColor: colors.primary.base},
-  inActiveContainer: {backgroundColor: colors.bdazzledBlue.base},
+  activeContainer: {
+    backgroundColor: colors.primary.base,
+  },
+  buttonText: {
+    ...TypographyStyles.RegularNoneRegular,
+    color: colors.white,
+  },
+  inactiveContainer: {
+    backgroundColor: colors.bdazzledBlue.base,
+    paddingHorizontal: normalize('horizontal', 16),
+    paddingVertical: normalize('vertical', 8),
+    borderRadius: normalize('vertical', 100),
+    marginRight: normalize('horizontal', 10),
+  },
   body: {
     bottom: normalize('vertical', 70),
     marginHorizontal: normalize('horizontal', 20),
@@ -180,3 +191,18 @@ const styles = StyleSheet.create({
     gap: normalize('horizontal', 20),
   },
 });
+
+const vectors = {
+  chevronLeft: {
+    color: colors.white,
+    height: normalize('vertical', 24),
+    width: normalize('vertical', 24),
+    icon: require('../../assets/vectors/chevron-left.svg'),
+  },
+  slider: {
+    color: colors.white,
+    height: normalize('vertical', 24),
+    width: normalize('vertical', 24),
+    icon: require('../../assets/vectors/sliders.svg'),
+  },
+};
