@@ -16,4 +16,5 @@ export enum Routes {
   tabNavigator = 'tabNavigator',
   popularProducts = 'popularProducts',
   itemList = 'itemList',
+  filter = 'filter',
 }

@@ -75,7 +75,7 @@ type ItemListScreenProb = NativeStackScreenProps<
 >;
 
 export const ItemListScreen: React.FC<ItemListScreenProb> = ({navigation}) => {
-  const brandStore = useCategoryStore();
+  const categoryStore = useCategoryStore();
   return (
     <ScrollView
       scrollEnabled={true}
@@ -86,9 +86,9 @@ export const ItemListScreen: React.FC<ItemListScreenProb> = ({navigation}) => {
       <Navbar
         right={vectors.filter}
         type="standard"
-        onRightPress={() => {}}
+        onRightPress={() => navigation.navigate(Routes.filter)}
         onLeftPress={() => navigation.goBack()}
-        title={brandStore.category}
+        title={categoryStore.category}
         left={vectors.leftChevron}
         leftActionType="icon"
         rightActionType="icon"
