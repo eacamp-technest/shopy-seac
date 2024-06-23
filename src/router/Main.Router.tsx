@@ -13,7 +13,7 @@ export const MainRouter = () => {
   return (
     <MainStack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName={/* Routes.tabNavigator */ Routes.filter}>
+      initialRouteName={Routes.tabNavigator}>
       <MainStack.Screen name={Routes.tabNavigator} component={TabNavigator} />
       <MainStack.Screen
         name={Routes.popularProducts}
