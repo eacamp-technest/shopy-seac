@@ -1,8 +1,6 @@
-// src/models/DiscoverCategory.ts
-
 export interface Category {
-    categoryName: string | undefined;
-    backgroundColor: string | undefined;
-    backgroundImage: any; // Use 'any' type for require
-  }
-  
+  categoryName: string;
+  backgroundColor: string;
+  backgroundImage: any; 
+  menuItems: string[]; // Array of strings for item names
+}
