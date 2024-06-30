@@ -6,14 +6,21 @@ import { categories } from '../../mock/Discover.Mock';
 const DiscoveryScreen = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {Object.keys(categories).map((key) => (
-        <DiscoverCard
-          key={key}
-          categoryName={categories[key]?.categoryName}
-          backgroundColor={categories[key]?.backgroundColor}
-          backgroundImage={categories[key]?.backgroundImage}
-        />
-      ))}
+      {Object.keys(categories).map((key) => {
+        const category = categories[key];
+        if (category) {
+          return (
+            <DiscoverCard
+              key={key}
+              categoryName={category.categoryName || ''}
+              backgroundColor={category.backgroundColor || ''}
+              backgroundImage={category.backgroundImage}
+              menuItems={category.menuItems || []}  // Varsayılan değer olarak boş bir array
+            />
+          );
+        }
+        return null;
+      })}
     </ScrollView>
   );
 };
