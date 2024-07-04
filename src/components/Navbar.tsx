@@ -3,15 +3,15 @@ import {
   StyleProp,
   StyleSheet,
   Text,
-  TextStyle,
   View,
+  ViewStyle,
 } from 'react-native';
 import React from 'react';
 import {TypographyStyles} from 'theme/typography';
 import {CommonStyles} from 'theme/common.styles';
 import {SvgImage} from './SvgImage';
 import {colors} from 'theme/colors';
-import {Button} from './Button';
+import {Button, IButton} from './Button';
 import {normalize} from 'theme/metrics';
 
 type TIcon = {
@@ -22,18 +22,25 @@ type TIcon = {
   color?: string;
 };
 type NavbarActions = 'icon' | 'icon-text' | 'text' | 'button' | 'none';
-type NavbarSide = NodeRequire | TIcon | string | React.ReactNode | undefined;
+type NavbarSide =
+  | NodeRequire
+  | TIcon
+  | string
+  | React.ReactNode
+  | IButton
+  | undefined;
 
 interface INavBar {
   type: 'large' | 'standard';
   title?: string;
   left?: NavbarSide;
   right?: NavbarSide;
+  titleColor?: string;
+  style?: StyleProp<ViewStyle>;
   onLeftPress?: () => void;
   onRightPress?: () => void;
   leftActionType?: NavbarActions;
   rightActionType?: NavbarActions;
-  titleStyle?: StyleProp<TextStyle>;
 }
 
 export const Navbar: React.FC<INavBar> = ({
@@ -44,13 +51,14 @@ export const Navbar: React.FC<INavBar> = ({
   right,
   title,
   onLeftPress,
+  titleColor,
   onRightPress,
-  titleStyle,
+  style,
 }) => {
   if (type === 'large') {
     return (
       <View style={styles.large}>
-        <Text style={[TypographyStyles.title2, titleStyle]}>{title}</Text>
+        <Text style={TypographyStyles.title2}>{title}</Text>
       </View>
     );
   }
@@ -101,8 +109,9 @@ export const Navbar: React.FC<INavBar> = ({
           <Button
             type="primary"
             size="small"
-            text={data?.toString() ?? ''}
+            text={data?.toString()}
             onPress={onPressAction}
+            {...(data as IButton)}
           />
         );
 
@@ -112,14 +121,17 @@ export const Navbar: React.FC<INavBar> = ({
   };
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, style]}>
       <Pressable
         disabled={!onLeftPress || leftActionType === 'button'}
         onPress={onLeftPress}
         style={[styles.action, !leftActionType && styles.hide]}>
         {renderActions(leftActionType, left, 'left')}
       </Pressable>
-      <Text style={[TypographyStyles.title3, titleStyle]}>{title}</Text>
+      <Text
+        style={[TypographyStyles.title3, !!titleColor && {color: titleColor}]}>
+        {title}
+      </Text>
       <Pressable
         disabled={!onRightPress || rightActionType === 'button'}
         onPress={onRightPress}
