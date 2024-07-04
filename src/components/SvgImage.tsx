@@ -1,14 +1,25 @@
 import React from 'react';
-import {SvgProps} from 'react-native-svg';
-import {normalize} from '../theme/metrics';
+import {Insets, Pressable, StyleProp, ViewStyle} from 'react-native';
 
-export interface SvgImageProbs extends SvgProps {
+import {SvgProps} from 'react-native-svg';
+
+import {normalize} from 'theme/metrics';
+
+export interface SvgImageProps extends SvgProps {
   source: any;
+  isPressable?: boolean;
+  onPress?: () => void;
+  pressableStyle?: StyleProp<ViewStyle>;
+  pressableHitSlop?: null | Insets | number | undefined;
 }
 
-export const SvgImage: React.FC<SvgImageProbs> = ({
+export const SvgImage: React.FC<SvgImageProps> = ({
   source,
   children,
+  isPressable,
+  pressableHitSlop,
+  pressableStyle,
+  onPress,
   ...props
 }) => {
   if (!source?.default) {
@@ -21,6 +32,17 @@ export const SvgImage: React.FC<SvgImageProbs> = ({
 
   if (props.height) {
     props.height = normalize('width', Number(props.height));
+  }
+
+  if (isPressable) {
+    return (
+      <Pressable
+        hitSlop={pressableHitSlop}
+        onPress={onPress}
+        style={pressableStyle}>
+        {React.createElement(source.default, props, children)}
+      </Pressable>
+    );
   }
 
   return React.createElement(source.default, props, children);
