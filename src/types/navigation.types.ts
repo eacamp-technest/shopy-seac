@@ -22,4 +22,6 @@ export type NavigationParamList = {
   [Routes.bookmark]: undefined;
   [Routes.tabNavigator]: undefined;
   [Routes.popularProducts]: undefined;
+  [Routes.itemList]: undefined;
+  [Routes.filter]: undefined;
 };

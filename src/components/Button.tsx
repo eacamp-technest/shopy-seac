@@ -20,7 +20,7 @@ import {colors} from 'theme/colors';
 type TSize = 'small' | 'block' | 'large';
 type TPosition = 'left' | 'right' | 'center';
 
-interface IButton {
+export interface IButton {
   text?: string;
   disabled?: boolean;
   loading?: boolean;
@@ -28,12 +28,11 @@ interface IButton {
   type?: TTypesButton;
   icon?: NodeRequire | any;
   position?: TPosition;
+  center?: boolean;
   style?: StyleProp<ViewStyle>;
   hitSlop?: PressableProps['hitSlop'];
   onPress?: () => void;
 }
-
-// ! Component
 
 export const Button: React.FC<IButton> = ({
   text,
@@ -44,6 +43,7 @@ export const Button: React.FC<IButton> = ({
   icon,
   position = 'left',
   style,
+  center = true,
   onPress,
   hitSlop,
 }) => {
@@ -83,7 +83,14 @@ export const Button: React.FC<IButton> = ({
       onPress={onPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}>
-      <NativeText style={[styles.text, textStyle]}>{text}</NativeText>
+      <NativeText
+        style={[
+          styles.text,
+          center && TypographyStyles.textAlignCenter,
+          textStyle,
+        ]}>
+        {text}
+      </NativeText>
       {icon ? (
         <SvgImage
           color={textStyle.color}
@@ -108,7 +115,7 @@ const styles = StyleSheet.create({
     ...TypographyStyles.RegularNoneSemiBold,
     color: 'white',
     flexGrow: 1,
-    textAlign: 'center',
+    textAlign: 'right',
   },
   left: {
     flexDirection: 'row-reverse',

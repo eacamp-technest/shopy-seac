@@ -108,6 +108,11 @@ export const TypographyStyles = StyleSheet.create({
     fontFamily: montserratFonts[400],
     ...commonFontStyling,
   },
+  TinyNoneSemiBold: {
+    fontSize: fontSize12,
+    fontFamily: montserratFonts[600],
+    ...commonFontStyling,
+  },
   textAlignCenter: {
     textAlign: 'center',
   },

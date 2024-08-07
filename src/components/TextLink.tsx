@@ -11,7 +11,7 @@ interface HighlightedText {
 
 interface TextLinkProps {
   content: string;
-  highlighted: HighlightedText[];
+  highlighted?: HighlightedText[];
   center?: boolean;
   fontColor?: string;
   style?: StyleProp<TextStyle>;
@@ -34,17 +34,17 @@ export const TextLink: React.FC<TextLinkProps> = ({
           key={key}
           onPress={callback}
           disabled={!callback}
-          style={[TypographyStyles.SmallNormalRegular, {color}]}>
+          style={[TypographyStyles.SmallNormalRegular, style, {color}]}>
           {text}
         </Text>
       );
     },
-    [fontColor],
+    [fontColor, style],
   );
 
   const renderElements = useMemo(() => {
     let lastIndex = 0;
-    const elements = highlighted.map(({text, callback}, index) => {
+    const elements = highlighted?.map(({text, callback}, index) => {
       const startIndex = content.indexOf(text);
       const endIndex = startIndex + text.length;
       const normalText = content.slice(lastIndex, startIndex);
@@ -58,7 +58,7 @@ export const TextLink: React.FC<TextLinkProps> = ({
       );
     });
 
-    elements.push(createHighlightedText(content.slice(lastIndex)));
+    elements?.push(createHighlightedText(content.slice(lastIndex)));
     return elements;
   }, [content, createHighlightedText, highlighted]);
 
